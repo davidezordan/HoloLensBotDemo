@@ -23,7 +23,7 @@
         <TextBlock Text="Command received: " Grid.Column="1" VerticalAlignment="Center" />
         <TextBox x:Name="TextCommand" Grid.Column="3" VerticalAlignment="Center"/>
 
-        <Button Content="Start Recognition" Click="Button_Click" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
+        <Button Content="Start Recognition" Click="StartRecognitionButton_Click" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" />
 
         <TextBlock Text="Status: " Grid.Column="1" VerticalAlignment="Center" Grid.Row="2" />
         <TextBlock x:Name="TextStatus" Grid.Column="3" VerticalAlignment="Center" Grid.Row="2"/>
@@ -32,5 +32,6 @@
         <TextBlock x:Name="TextOutputBot" Foreground="Red" Grid.Column="3" 
                    VerticalAlignment="Center" Width="Auto" Height="Auto" Grid.Row="3"
                    TextWrapping="Wrap" />
+        <MediaElement x:Name="media" />
     </Grid>
 </Page>
