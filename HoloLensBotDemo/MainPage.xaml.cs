@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Windows.Media.SpeechRecognition;
 using Windows.Media.SpeechSynthesis;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
@@ -16,14 +17,46 @@ namespace HoloLensBotDemo
     public sealed partial class MainPage : Page
     {
         private SpeechSynthesizer synthesizer;
+        private SpeechRecognizer recognizer;
 
         public MainPage()
         {
             this.InitializeComponent();
 
+            InitializeSpeech();
+        }
+
+        private async void InitializeSpeech()
+        {
             synthesizer = new SpeechSynthesizer();
+            recognizer = new SpeechRecognizer();
 
             media.MediaEnded += Media_MediaEnded;
+            recognizer.StateChanged += Recognizer_StateChanged;
+
+            // Compile the dictation grammar by default.
+            await recognizer.CompileConstraintsAsync();
+        }
+
+        private void Recognizer_StateChanged(SpeechRecognizer sender, SpeechRecognizerStateChangedEventArgs args)
+        {
+            if (args.State == SpeechRecognizerState.Idle)
+            {
+                SetTextStatus(string.Empty);
+            }
+
+            if (args.State == SpeechRecognizerState.Capturing)
+            {
+                SetTextStatus("Listening....");
+            }
+        }
+
+        private async void SetTextStatus(string text)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                TextStatus.Text = text;
+            });
         }
 
         private void Media_MediaEnded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
@@ -32,21 +65,16 @@ namespace HoloLensBotDemo
         }
 
         private async void StartRecognitionButton_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
-        {
-            TextStatus.Text = "Listening....";
-            
-            // Create an instance of SpeechRecognizer.
-            var speechRecognizer = new Windows.Media.SpeechRecognition.SpeechRecognizer();
+        {           
+            if (recognizer.State == SpeechRecognizerState.Idle)
+            {
+                // Start recognition.
+                SpeechRecognitionResult speechRecognitionResult = await recognizer.RecognizeWithUIAsync();
 
-            // Compile the dictation grammar by default.
-            await speechRecognizer.CompileConstraintsAsync();
+                TextCommand.Text = speechRecognitionResult.Text;
 
-            // Start recognition.
-            Windows.Media.SpeechRecognition.SpeechRecognitionResult speechRecognitionResult = await speechRecognizer.RecognizeWithUIAsync();
-
-            TextCommand.Text = speechRecognitionResult.Text;
-
-            await SendToBot(TextCommand.Text);
+                await SendToBot(TextCommand.Text);
+            }
         }
 
         private async Task SendToBot(string inputText)
@@ -87,6 +115,8 @@ namespace HoloLensBotDemo
                         Speech(response);
                     }
                 }
+
+                TextStatus.Text = string.Empty;
             }
         }
 
