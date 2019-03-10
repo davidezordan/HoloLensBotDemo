@@ -1,11 +1,10 @@
-# HoloLens-Bot-Demo
-A simple Holographic 2D app communicating with a Bot
+# Experiments with HoloLens, Bot Framework, LUIS and Speech Recognition
 
-This article was originally published @ https://davide.dev:
+This article was originally published @ https://davide.dev:<br />
 [Experiments with HoloLens, Bot Framework and LUIS: adding text to speech](https://davide.dev/experiments-with-hololens-bot-framework-and-luis-adding-text-to-speech/)<br/>
 [Experiments with HoloLens, Bot Framework, LUIS and Speech Recognition](https://davide.dev/experiments-with-hololens-bot-framework-luis-and-speech-recognition/)
 
-<p style="text-align: justify;">Recently I had the opportunity to use a HoloLens device for some personal training and building some simple demos.</p>
+<p style="text-align: justify;">Recently, I had the opportunity to use a HoloLens device for some personal training and building some simple demos.</p>
 <p style="text-align: justify;"><img class="aligncenter wp-image-8156 size-medium" src="../wp-content/uploads/2017/05/HoloLens-dev-kit-225x300.jpg" alt="" width="225" height="300" /></p>
 <p style="text-align: justify;">One of the scenarios that I find very intriguing is the possibility of integrating Mixed Reality and Artificial Intelligence (AI) in order to create immersive experiences for the user.</p>
 <p style="text-align: justify;">I decided to perform an experiment by integrating a Bot, Language Understanding Intelligent Services (LUIS), Speech Recognition and Mixed Reality via a Holographic 2D app.</p>
